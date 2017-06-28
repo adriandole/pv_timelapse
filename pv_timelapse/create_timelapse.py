@@ -10,7 +10,8 @@ from pv_timelapse.frame_tools import process_frame
 
 
 def create_timelapse(source_path, write_path, start_date, end_date,
-                     duration, framerate, folder_format, image_name_format):
+                     duration, framerate, resolution, folder_format,
+                     image_name_format):
     """
     Creates a time-lapse.
 
@@ -26,6 +27,8 @@ def create_timelapse(source_path, write_path, start_date, end_date,
     :type duration: int
     :param framerate: Video framerate in frames per second.
     :type framerate: int
+    :param resolution: Output resolution as percentage of source
+    :type resolution: int
     :param folder_format: Format of folder names containing date information
     :type folder_format: str
     :param image_name_format: Format of image names containing date and time information
@@ -39,7 +42,8 @@ def create_timelapse(source_path, write_path, start_date, end_date,
                               pd.Timestamp(end_date).value, total_frames)
 
     frame_times = pd.to_datetime(frame_times)
-    frame_writer = FFmpegWriter(write_path)
+    # Framerate has to be a string. Something do with the underlying skvideo code
+    frame_writer = FFmpegWriter(write_path, inputdict={"-r": str(framerate)})
 
     image_times = []
 
@@ -49,7 +53,9 @@ def create_timelapse(source_path, write_path, start_date, end_date,
     for frame in frame_times:
         if frame >= image_times[1]:
             image_times.pop(0)
-        frame_writer.writeFrame(process_frame(imread(ix.img_date_to_path(
-            source_path, image_times[0], folder_format, image_name_format))))
+        to_writer = process_frame(imread(ix.img_date_to_path(
+            source_path, image_times[0], folder_format, image_name_format)),
+            resolution)
+        frame_writer.writeFrame(to_writer)
 
     frame_writer.close()
