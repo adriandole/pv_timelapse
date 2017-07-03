@@ -27,6 +27,8 @@ def find_folders(start_date, end_date, source_dir, folder_format):
         except:
             continue
     days.sort()
+    start_date += timedelta(hours=-start_date.hour, minutes=-start_date.minute,
+                            seconds=-start_date.second)
 
     for day in days:
         if (day >= start_date) and (day <= end_date):
