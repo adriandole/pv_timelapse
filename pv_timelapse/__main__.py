@@ -4,6 +4,7 @@ import sys
 import warnings
 from datetime import datetime
 from pv_timelapse.indexing import Params
+from pv_timelapse.plotting import plot_ghi
 
 from pv_timelapse.create_timelapse import create_timelapse
 
@@ -32,6 +33,8 @@ parser.add_argument('-fdn', '--folder_name', default='%Y-%m-%d', type=str,
                     dest='fdn')
 parser.add_argument('-r', '--resolution', type=int, default=100, dest='r',
                     help='Scaling factor; percentage of source resolution')
+parser.add_argument('-lt', '--linear_time', action='store_true', dest='lt',
+                    help='Use constant time intervals between frames')
 in_args = parser.parse_args()
 
 try:
@@ -59,16 +62,17 @@ if in_args.fps > 30 and in_args.r > 80:
 name, _ = os.path.splitext(in_args.on)
 name += '.mp4'
 write_path = os.path.join(in_args.od, name)
-if os.path.isfile(write_path):
-    sys.exit('File already exists')
+# if os.path.isfile(write_path):
+#     sys.exit('File already exists')
 
 if not os.path.isdir(source_path):
     sys.exit('Source directory not found')
 
 try:
     p = Params(source_path, write_path, start_datetime, end_datetime, in_args.d,
-               in_args.fps, in_args.r, in_args.fdn, in_args.imn)
-    create_timelapse(p)
+               in_args.fps, in_args.r, in_args.fdn, in_args.imn, in_args.lt)
+    # create_timelapse(p)
+    plot_ghi(p)
 except Exception as e:
     print(e)
 

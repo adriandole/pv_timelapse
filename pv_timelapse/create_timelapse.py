@@ -22,10 +22,17 @@ def create_timelapse(p):
     # Framerate has to be a string. Something do with the underlying skvideo code
     frame_writer = FFmpegWriter(p.write, inputdict={"-r": str(p.framerate)})
 
-    for frame in frame_times:
-        closest_img = p.image_times.get_loc(frame, method='nearest')
-        to_writer = process_frame(imread(p.date_to_path(p.image_times[closest_img])),
-            p.resolution)
-        frame_writer.writeFrame(to_writer)
+    if p.linear_time:
+        for frame in frame_times:
+            closest_img = p.image_times.get_loc(frame, method='nearest')
+            to_writer = process_frame(imread(p.date_to_path(p.image_times[closest_img])),
+                                      p.resolution)
+            frame_writer.writeFrame(to_writer)
+    else:
+        skip = int(len(p.image_times)/len(frame_times))
+        for n in range(0, len(p.image_times), skip):
+            to_writer = process_frame(imread(p.date_to_path(p.image_times[n])),
+                                      p.resolution)
+            frame_writer.writeFrame(to_writer)
 
     frame_writer.close()

@@ -1,12 +1,14 @@
 import os
 import pandas as pd
+import MySQLdb
+import numpy as np
 from datetime import datetime, timedelta
 
 
 class Params:
     """Container class for various relevant parameters"""
     def __init__(self, source_path, write_path, start_date, end_date, duration,
-                 framerate, resolution, folder_format, image_name_format):
+                 framerate, resolution, folder_format, image_name_format, linear_time):
         """
         Constructor for the container class
 
@@ -28,6 +30,8 @@ class Params:
         :type folder_format: str
         :param image_name_format: name format of the individual images
         :type image_name_format: str
+        :param linear_time: whether to use constant time intervals between frames
+        :type linear_time: bool
         """
         self.source = source_path
         self.write = write_path
@@ -38,11 +42,13 @@ class Params:
         self.resolution = resolution
         self.folder_format = folder_format
         self.image_name_format = image_name_format
+        self.linear_time = linear_time
         self.day_folders = self.find_folders()
         self.image_times = []
         for folder in self.day_folders:
             self.image_times += self.get_image_times(folder)
         self.image_times = pd.DatetimeIndex(self.image_times)
+        self.ghi_data = self.get_ghi()
 
     def find_folders(self):
         """
@@ -101,3 +107,20 @@ class Params:
         folder_name = img_date.strftime(self.folder_format)
         image_name = img_date.strftime(self.image_name_format)
         return os.path.join(self.source, folder_name, image_name)
+
+    def get_ghi(self):
+        """
+        Gets global horizontal irradiance values between the input dates
+
+        :return: array of irradiance values every second
+        :rtype: np.ndarray
+        """
+        db = MySQLdb.connect(host='lumos.el.nist.gov', port=3307, user='db_robot_select',
+                             passwd='vdv', db='vistavision_db')
+        c = db.cursor()
+        c.execute('SELECT 19_refcell1_wm2 FROM ws_1_analogtable_0037 '
+                  'WHERE time_stamp BETWEEN \'{}\' and \'{}\''
+                  .format(self.start_date.strftime('%Y-%m-%d %H-%M-%S'),
+                          self.end_date.strftime('%Y-%m-%d %H-%M-%S')))
+        out = c.fetchall()
+        return np.array([float(n[0]) for n in out])

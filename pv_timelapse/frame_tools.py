@@ -3,6 +3,7 @@ import warnings
 import numpy as np
 from skimage import img_as_ubyte
 from skimage.transform import rescale, resize
+from pv_timelapse.plotting import plot_ghi
 
 initial_res = (0,0,0)
 
