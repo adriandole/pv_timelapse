@@ -41,22 +41,20 @@ def create_timelapse(source_path, write_path, start_date, end_date,
     frame_times = np.linspace(pd.Timestamp(start_date).value,
                               pd.Timestamp(end_date).value, total_frames)
 
-    # frame_times = pd.to_datetime(frame_times)
+    frame_times = pd.to_datetime(frame_times)
     # Framerate has to be a string. Something do with the underlying skvideo code
     frame_writer = FFmpegWriter(write_path, inputdict={"-r": str(framerate)})
     image_times = []
 
     for day_folder in day_folders:
         image_times += ix.index_files(source_path, day_folder, image_name_format)
-    image_times = image_times[::-1]
+    image_times = pd.DatetimeIndex(image_times)
 
     for frame in frame_times:
-        for time in image_times:
-            if pd.to_datetime(frame) >= time:
-                to_writer = process_frame(imread(ix.img_date_to_path(
-                    source_path, image_times[0], folder_format, image_name_format)),
-                    resolution)
-                frame_writer.writeFrame(to_writer)
-                break
+        closest_img = image_times.get_loc(frame, method='nearest')
+        to_writer = process_frame(imread(ix.img_date_to_path(
+            source_path, closest_img, folder_format, image_name_format)),
+            resolution)
+        frame_writer.writeFrame(to_writer)
 
     frame_writer.close()

@@ -1,6 +1,5 @@
 import MySQLdb
 import numpy as np
-from datetime import datetime
 
 
 def get_ghi(start_date, end_date):

@@ -3,8 +3,6 @@ import warnings
 import numpy as np
 from skimage import img_as_ubyte
 from skimage.transform import rescale, resize
-from skimage.data import coffee
-from skimage.viewer import ImageViewer
 
 initial_res = (0,0,0)
 
@@ -83,10 +81,4 @@ def overlay(background, image, position=(0,1), buffer=5):
         background[buffer:dim[0]+buffer:, -dim[1]-buffer:-buffer:, ::] = image
     elif position == (1,0):
         background[buffer:dim[0]+buffer:, buffer:dim[1]+buffer:, ::] = image
-    view = ImageViewer(background)
-    view.show()
     return background
-
-c = coffee()
-o = rescale(c, 0.25)
-overlay(c,o,(0,0))
