@@ -1,92 +1,103 @@
 import os
+import pandas as pd
 from datetime import datetime, timedelta
 
 
 class Params:
+    """Container class for various relevant parameters"""
     def __init__(self, source_path, write_path, start_date, end_date, duration,
-                 framerate, folder_format, image_name_format):
+                 framerate, resolution, folder_format, image_name_format):
+        """
+        Constructor for the container class
+
+        :param source_path: directory containing the day folders
+        :type source_path: os.path.abspath
+        :param write_path: path to the output video
+        :type write_path: os.path.abspath
+        :param start_date: when to start the timelapse
+        :type start_date: datetime
+        :param end_date: when to end the timelapse
+        :type end_date: datetime
+        :param duration: length of the video in seconds
+        :type duration: int
+        :param framerate: video framerate
+        :type framerate: int
+        :param resolution: output resolution as percentage of input
+        :type resolution: int
+        :param folder_format: name format of the day folders
+        :type folder_format: str
+        :param image_name_format: name format of the individual images
+        :type image_name_format: str
+        """
         self.source = source_path
         self.write = write_path
         self.start_date = start_date
         self.end_date = end_date
         self.duration = duration
         self.framerate = framerate
+        self.resolution = resolution
         self.folder_format = folder_format
         self.image_name_format = image_name_format
-        
-def find_folders(start_date, end_date, source_dir, folder_format):
-    """
-    Finds the folder encompassing the given start date.
+        self.day_folders = self.find_folders()
+        self.image_times = []
+        for folder in self.day_folders:
+            self.image_times += self.get_image_times(folder)
+        self.image_times = pd.DatetimeIndex(self.image_times)
 
-    :param start_date: Datetime object representing the start date
-    :type start_date: datetime
-    :param end_date: Datetime object representing the end date
-    :type end_date: datetime
-    :param source_dir: The directory to look in
-    :type source_dir: os.path.abspath
-    :param folder_format: Format of the day folder names
-    :type folder_format: str
-    :return: Name of the directory
-    """
+    def find_folders(self):
+        """
+        Finds the folders encompassing the given dates.
 
-    dir_folders = os.listdir(source_dir)
-    days = []
-    day_folders = []
+        :return: Name of the directory
+        """
 
-    for folder_name in dir_folders:
-        try:
-            days += [datetime.strptime(folder_name, folder_format)]
-        except:
-            continue
-    days.sort()
-    start_date += timedelta(hours=-start_date.hour, minutes=-start_date.minute,
-                            seconds=-start_date.second)
+        dir_folders = os.listdir(self.source)
+        days = []
+        day_folders = []
 
-    for day in days:
-        if (day >= start_date) and (day <= end_date):
-            day_folders += [str(day)[0:10]]
+        for folder_name in dir_folders:
+            try:
+                days += [datetime.strptime(folder_name, self.folder_format)]
+            except:
+                continue
+        days.sort()
+        start_day = self.start_date + \
+                    timedelta(hours=-self.start_date.hour,
+                              minutes=-self.start_date.minute, seconds=-self.start_date.second)
 
-    return day_folders
+        for day in days:
+            if (day >= start_day) and (day <= self.end_date):
+                day_folders += [str(day)[0:10]]
 
+        return day_folders
 
-def index_files(source_path, day_dir, image_name_format):
-    """
-    Returns a list of the dates of every picture in a folder.
+    def get_image_times(self, day_dir):
+        """
+        Returns a list of the dates of every picture in a folder.
 
-    :param source_path: Folder containing the day folders
-    :type source_path: os.path.abspath
-    :param day_dir: Folder containing the image files
-    :type day_dir: str
-    :param image_name_format: Format of the image names
-    :type image_name_format: str
-    :return: List of datetimes of the images
-    """
-    day_path = os.path.join(source_path, day_dir)
+        :param day_dir: Folder containing the image files
+        :type day_dir: str
+        :return: List of datetimes of the images
+        """
+        day_path = os.path.join(self.source, day_dir)
 
-    file_dates = []
-    for pic_name in os.listdir(day_path):
-        try:
-            file_dates += [datetime.strptime(pic_name, image_name_format)]
-        except:
-            continue
-    file_dates.sort()
+        file_dates = []
+        for pic_name in os.listdir(day_path):
+            try:
+                file_dates += [datetime.strptime(pic_name, self.image_name_format)]
+            except:
+                continue
+        file_dates.sort()
 
-    return file_dates
+        return file_dates
 
+    def date_to_path(self, img_date):
+        """
+        Finds the path of the image with the given date
 
-def img_date_to_path(source_path, img_date, folder_format, image_name_format):
-    """
-    Finds the path of the image with the given date
-
-    :param source_path: Folder containing the day folders
-    :type source_path: os.path.abspath
-    :param img_date: Date of the image
-    :type img_date: datetime
-    :param folder_format: Format of the day folder names
-    :type folder_format: str
-    :param image_name_format: Format of the image names
-    :type image_name_format: str
-    """
-    folder_name = img_date.strftime(folder_format)
-    image_name = img_date.strftime(image_name_format)
-    return os.path.join(source_path, folder_name, image_name)
+        :param img_date: Date of the image
+        :type img_date: datetime
+        """
+        folder_name = img_date.strftime(self.folder_format)
+        image_name = img_date.strftime(self.image_name_format)
+        return os.path.join(self.source, folder_name, image_name)

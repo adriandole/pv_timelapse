@@ -3,6 +3,7 @@ import os
 import sys
 import warnings
 from datetime import datetime
+from pv_timelapse.indexing import Params
 
 from pv_timelapse.create_timelapse import create_timelapse
 
@@ -65,9 +66,9 @@ if not os.path.isdir(source_path):
     sys.exit('Source directory not found')
 
 try:
-    create_timelapse(source_path, write_path, start_datetime,
-                     end_datetime, in_args.d, in_args.fps, in_args.r,
-                     in_args.fdn, in_args.imn)
+    p = Params(source_path, write_path, start_datetime, end_datetime, in_args.d,
+               in_args.fps, in_args.r, in_args.fdn, in_args.imn)
+    create_timelapse(p)
 except Exception as e:
     print(e)
 
