@@ -53,7 +53,7 @@ except:
 
 if in_args.fps > 30 and in_args.r > 80:
     warnings.warn('High frame rate and full resolution can cause playback'
-                  'issues on some computers.')
+                  ' issues on some computers.')
 
 name, _ = os.path.splitext(in_args.on)
 name += '.mp4'

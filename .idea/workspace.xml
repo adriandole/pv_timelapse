@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="64fb64e3-c7e2-4f73-b500-2d049fc4a589" name="Default" comment="Initial commit">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/pv_timelapse.iml" afterPath="$PROJECT_DIR$/.idea/pv_timelapse.iml" />
+    <list default="true" id="64fb64e3-c7e2-4f73-b500-2d049fc4a589" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pv_timelapse/__main__.py" afterPath="$PROJECT_DIR$/pv_timelapse/__main__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" afterPath="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pv_timelapse/database.py" afterPath="$PROJECT_DIR$/pv_timelapse/database.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pv_timelapse/frame_tools.py" afterPath="$PROJECT_DIR$/pv_timelapse/frame_tools.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pv_timelapse/indexing.py" afterPath="$PROJECT_DIR$/pv_timelapse/indexing.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,10 +25,22 @@
       <file leaf-file-name="__main__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pv_timelapse/__main__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2442">
-              <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+            <state relative-caret-position="941">
+              <caret line="64" column="42" lean-forward="false" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="indexing.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pv_timelapse/indexing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -53,8 +61,8 @@
       <file leaf-file-name="create_timelapse.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pv_timelapse/create_timelapse.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="924">
-              <caret line="28" column="24" lean-forward="true" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+            <state relative-caret-position="1485">
+              <caret line="45" column="48" lean-forward="true" selection-start-line="45" selection-start-column="48" selection-end-line="45" selection-end-column="48" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -65,23 +73,11 @@
       <file leaf-file-name="database.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pv_timelapse/database.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="13" column="22" lean-forward="true" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+            <state relative-caret-position="330">
+              <caret line="10" column="49" lean-forward="true" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <marker date="1499273394045" expanded="true" signature="596:722" ph="SELECT 19_re... ws_1_analogtable_0037" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="indexing.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pv_timelapse/indexing.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -132,23 +128,23 @@
         <option value="$PROJECT_DIR$/pv_timelapse/folder_io/find_folders.py" />
         <option value="$PROJECT_DIR$/pv_timelapse/folder_io/index_files.py" />
         <option value="$PROJECT_DIR$/pv_timelapse/vid_writing/create_timelapse.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/indexing.py" />
         <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/indexing.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/__main__.py" />
         <option value="$PROJECT_DIR$/pv-timelapse/create_timelapse.py" />
         <option value="$PROJECT_DIR$/pv-timelapse/create_timelapse.py" />
         <option value="$PROJECT_DIR$/pv-timelapse/__main__.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/__main__.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
         <option value="$PROJECT_DIR$/pv_timelapse/frame_tools.py" />
         <option value="$PROJECT_DIR$/pv_timelapse/frame_tools.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" />
         <option value="$PROJECT_DIR$/pv_timelapse/frame_tools.py" />
-        <option value="$PROJECT_DIR$/pv_timelapse/__main__.py" />
         <option value="$PROJECT_DIR$/pv_timelapse/database.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/create_timelapse.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/__main__.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/__main__.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/__main__.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/indexing.py" />
+        <option value="$PROJECT_DIR$/pv_timelapse/indexing.py" />
       </list>
     </option>
   </component>
@@ -466,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1498234396659</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed frame writing">
+      <created>1499273711858</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1499273711858</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -508,7 +511,8 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Fixed frame writing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed frame writing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -733,12 +737,21 @@
     <entry file="file://$PROJECT_DIR$/pv_timelapse/folder_io/__init__.py" />
     <entry file="file://$PROJECT_DIR$/pv_timelapse/index_files.py" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
-    <entry file="file://$PROJECT_DIR$/pv_timelapse/create_timelapse.py">
+    <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="924">
-          <caret line="28" column="24" lean-forward="true" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+        <state relative-caret-position="363">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pv_timelapse/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="10" column="49" lean-forward="true" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1499273394045" expanded="true" signature="596:722" ph="SELECT 19_re... ws_1_analogtable_0037" />
           </folding>
         </state>
       </provider>
@@ -753,39 +766,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pv_timelapse/create_timelapse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1485">
+          <caret line="45" column="48" lean-forward="true" selection-start-line="45" selection-start-column="48" selection-end-line="45" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pv_timelapse/__main__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2442">
-          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+        <state relative-caret-position="941">
+          <caret line="64" column="42" lean-forward="false" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pv_timelapse/database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="13" column="22" lean-forward="true" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <marker date="1499273394045" expanded="true" signature="596:722" ph="SELECT 19_re... ws_1_analogtable_0037" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pv_timelapse/indexing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        <state relative-caret-position="495">
+          <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

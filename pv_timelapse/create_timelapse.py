@@ -53,7 +53,7 @@ def create_timelapse(source_path, write_path, start_date, end_date,
     for frame in frame_times:
         closest_img = image_times.get_loc(frame, method='nearest')
         to_writer = process_frame(imread(ix.img_date_to_path(
-            source_path, closest_img, folder_format, image_name_format)),
+            source_path, image_times[closest_img], folder_format, image_name_format)),
             resolution)
         frame_writer.writeFrame(to_writer)
 

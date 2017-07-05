@@ -2,6 +2,18 @@ import os
 from datetime import datetime, timedelta
 
 
+class Params:
+    def __init__(self, source_path, write_path, start_date, end_date, duration,
+                 framerate, folder_format, image_name_format):
+        self.source = source_path
+        self.write = write_path
+        self.start_date = start_date
+        self.end_date = end_date
+        self.duration = duration
+        self.framerate = framerate
+        self.folder_format = folder_format
+        self.image_name_format = image_name_format
+        
 def find_folders(start_date, end_date, source_dir, folder_format):
     """
     Finds the folder encompassing the given start date.
