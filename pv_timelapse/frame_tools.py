@@ -3,12 +3,11 @@ import warnings
 import numpy as np
 from skimage import img_as_ubyte
 from skimage.transform import rescale, resize
-from pv_timelapse.plotting import plot_ghi
 
 initial_res = (0,0,0)
 
 
-def process_frame(frame, resolution):
+def process_frame(frame, resolution, plot):
     """
     Performs various operations on a frame.
 
@@ -28,6 +27,7 @@ def process_frame(frame, resolution):
     if frame_res != initial_res:
         frame = resize(frame, initial_res)
     frame = horizontal_pad(frame)
+    # frame = overlay(frame, plot)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
         return img_as_ubyte(frame)
@@ -64,9 +64,10 @@ def overlay(background, image, position=(0,1), buffer=5):
     :return: the image with the overlay
     :rtype: np.ndarray
     """
-
-    background = img_as_ubyte(background)
-    image = img_as_ubyte(image)
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        background = img_as_ubyte(background)
+        image = img_as_ubyte(image)
 
     size = [n + buffer for n in image.shape]
     back_size = list(background.shape)

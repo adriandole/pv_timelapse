@@ -10,7 +10,8 @@ from datetime import datetime, timedelta
 class Params:
     """Container class for various relevant parameters"""
     def __init__(self, source_path, write_path, start_date, end_date, duration,
-                 framerate, resolution, folder_format, image_name_format, linear_time):
+                 resolution, folder_format, image_name_format, linear_time,
+                 input_dict, output_dict):
         """
         Constructor for the container class
 
@@ -24,8 +25,6 @@ class Params:
         :type end_date: datetime
         :param duration: length of the video in seconds
         :type duration: int
-        :param framerate: video framerate
-        :type framerate: int
         :param resolution: output resolution as percentage of input
         :type resolution: int
         :param folder_format: name format of the day folders
@@ -34,17 +33,22 @@ class Params:
         :type image_name_format: str
         :param linear_time: whether to use constant time intervals between frames
         :type linear_time: bool
+        :param input_dict: FFmpeg input parameters
+        :type input_dict: dict
+        :param output_dict: FFmpeg output parameters
+        :type output_dict: dict
         """
         self.source = source_path
         self.write = write_path
         self.start_date = start_date
         self.end_date = end_date
         self.duration = duration
-        self.framerate = framerate
         self.resolution = resolution
         self.folder_format = folder_format
         self.image_name_format = image_name_format
         self.linear_time = linear_time
+        self.input_dict = input_dict
+        self.output_dict = output_dict
         self.day_folders = self.find_folders()
         self.image_times = []
         for folder in self.day_folders:
@@ -144,7 +148,7 @@ class ProgressBar:
     def update(self, progress):
         """
         Updates and displays the progress bar
-        
+
         :param progress: The progress to display
         :type progress: float
         """
