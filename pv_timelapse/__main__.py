@@ -71,8 +71,7 @@ if not os.path.isdir(source_path):
 try:
     p = Params(source_path, write_path, start_datetime, end_datetime, in_args.d,
                in_args.fps, in_args.r, in_args.fdn, in_args.imn, in_args.lt)
-    # create_timelapse(p)
-    plot_ghi(p)
+    create_timelapse(p)
 except Exception as e:
     print(e)
 
