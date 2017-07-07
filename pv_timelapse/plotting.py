@@ -1,16 +1,15 @@
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from pv_timelapse.indexing import Params
 
 
-def plot_ghi(p):
+def plot_ghi(p: Params) -> np.ndarray:
     """
     Creates an image of the GHI plot
 
     :param p: paramater container
-    :type p: Params
     :return: the plot as an image
-    :rtype: np.ndarray
     """
     fig = Figure()
     canvas = FigureCanvas(fig)
