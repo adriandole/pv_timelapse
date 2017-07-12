@@ -43,7 +43,7 @@ parser.add_argument('-q', '--quality', default=23, type=int, dest='q',
                     choices=range(0, 52),
                     help='Amount of compression; higher = worse quality. '
                          '18-28 recommended.')
-parser.add_argument('-ef', '--efficiency', default=8, type=int, dest='ef',
+parser.add_argument('-ef', '--efficiency', default=5, type=int, dest='ef',
                     choices=range(0, 9),
                     help='Compression efficiency. No effect on quality. '
                          'Higher efficiency'
