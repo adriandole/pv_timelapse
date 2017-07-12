@@ -46,7 +46,7 @@ def horizontal_pad(frame: np.ndarray, width_scale: float = 0.2):
 
 
 def overlay(background: np.ndarray, image: np.ndarray,
-            position: tuple = (0, 1), buffer: int = 5) -> np.ndarray:
+            position: tuple = (0, 0), buffer: int = 5) -> np.ndarray:
     """
     Overlays an image on top of another. Transparent where the image is black
 
@@ -72,11 +72,11 @@ def overlay(background: np.ndarray, image: np.ndarray,
 
     dim = image.shape
     if position == (0, 0):
-        back_slice = background[buffer:dim[0] + buffer:,
+        back_slice = background[-buffer - dim[0]:-buffer:,
                      buffer:dim[1] + buffer:, ::]
         back_slice[mask] = image[mask]
-        background[buffer:dim[0] + buffer:, buffer:dim[1] + buffer:,
-        ::] = back_slice
+        background[-buffer - dim[0]:-buffer:, buffer:dim[1] + buffer:, ::]\
+            = back_slice
     elif position == (0, 1):
         back_slice = background[-dim[0] - buffer:-buffer:,
                      -dim[1] - buffer:-buffer:, ::]

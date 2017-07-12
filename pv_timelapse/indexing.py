@@ -1,12 +1,11 @@
 import os
+import time
+from datetime import datetime, timedelta
 from typing import List
 
-import pandas as pd
 import MySQLdb
-import sys
-import time
 import numpy as np
-from datetime import datetime, timedelta
+import pandas as pd
 
 
 class Params:
@@ -143,7 +142,7 @@ class ProgressBar:
         """
         Updates and displays the progress bar
 
-        :param progress: The progress to display
+        :param progress: The progress to display; [0,1]
         """
         elapsed = time.time() - self.start_time
         if isinstance(progress, int):

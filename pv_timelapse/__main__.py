@@ -14,14 +14,12 @@ parser.add_argument('--output_directory', '-od',
                     help='Where to output the time-lapse video',
                     type=str, dest='od', default='')
 parser.add_argument('--output_name', '-on', help='Name of the output video',
-                    type=str,
-                    default='timelapse', dest='on')
+                    type=str, default='timelapse', dest='on')
 parser.add_argument('--framerate', '-fps',
                     help='Frames per second of the output video',
                     type=int, default=60, dest='fps')
 parser.add_argument('--duration', '-d', help='Duration of the output video',
-                    type=int,
-                    default=10, dest='d')
+                    type=int, default=10, dest='d')
 parser.add_argument('-s', '--start_datetime', type=str, dest='s',
                     help='Time-lapse start date. Format: YYYY-MM-DDThh:mm:ss')
 parser.add_argument('-e', '--end_datetime', type=str, dest='e',
@@ -46,8 +44,7 @@ parser.add_argument('-q', '--quality', default=23, type=int, dest='q',
 parser.add_argument('-ef', '--efficiency', default=5, type=int, dest='ef',
                     choices=range(0, 9),
                     help='Compression efficiency. No effect on quality. '
-                         'Higher efficiency'
-                         ' = longer encoding time.')
+                         'Higher efficiency = longer encoding time.')
 parser.add_argument('--custom_ffmpeg', type=dict, default=None, dest='custom',
                     help='Custom output parameters for FFMPEG. Not '
                          'recommended.')

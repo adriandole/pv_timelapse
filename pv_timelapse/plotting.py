@@ -4,12 +4,11 @@ from matplotlib.figure import Figure
 from pv_timelapse.indexing import Params
 
 
-def plot_ghi(p: Params, frame_frac: float) -> np.ndarray:
+def plot_ghi(p: Params) -> np.ndarray:
     """
     Creates an image of the GHI plot
 
     :param p: paramater container
-    :param frame_frac: how far through the video this frame is
     :return: the plot as an image
     """
     fig = Figure()
