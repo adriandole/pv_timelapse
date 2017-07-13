@@ -1,18 +1,22 @@
 import warnings
 
 import numpy as np
+import skimage.color
+from skimage.filters import sobel
 from skimage import img_as_ubyte
 from skimage.transform import rescale, resize
 
 initial_res = (0, 0, 0)
 
 
-def process_frame(frame: np.ndarray, resolution: int, plot) -> np.ndarray:
+def process_frame(frame: np.ndarray, resolution: int,
+                  plot: np.ndarray) -> np.ndarray:
     """
     Performs various operations on a frame.
 
     :param frame: the video frame to process
     :param resolution: percentage to scale the frame by
+    :param plot: image of the plot to superimpose
     :return: the processed frame
     """
     if resolution is not 100:

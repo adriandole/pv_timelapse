@@ -124,6 +124,7 @@ class Params:
                   .format(self.start_date.strftime('%Y-%m-%d %H-%M-%S'),
                           self.end_date.strftime('%Y-%m-%d %H-%M-%S')))
         out = c.fetchall()
+        print(len(out))
         return np.array([float(n[0]) for n in out])
 
 

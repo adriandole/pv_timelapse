@@ -20,7 +20,6 @@ def create_timelapse(p: Params):
     :param p: Params container class for the timelapse
     """
 
-    plot = plot_ghi(p)
     total_frames = p.duration * int(p.input_dict['-r'])
     frame_times = np.linspace(pd.Timestamp(p.start_date).value,
                               pd.Timestamp(p.end_date).value, total_frames)
@@ -38,8 +37,10 @@ def create_timelapse(p: Params):
     if p.linear_time or (len(frame_times) > len(p.image_times)):
         for frame in frame_times:
             closest_img = p.image_times.get_loc(frame, method='nearest')
+            img_date = p.image_times[closest_img]
+            plot = plot_ghi(p, img_date)
             to_writer = process_frame(
-                imread(p.date_to_path(p.image_times[closest_img])),
+                imread(p.date_to_path(img_date)),
                 p.resolution, plot)
             frame_writer.writeFrame(to_writer)
             f_count += 1
@@ -47,7 +48,9 @@ def create_timelapse(p: Params):
     else:
         skip = int(len(p.image_times) / len(frame_times))
         for n in range(0, len(p.image_times), skip):
-            to_writer = process_frame(imread(p.date_to_path(p.image_times[n])),
+            img_date = p.image_times[n]
+            plot = plot_ghi(p, img_date)
+            to_writer = process_frame(imread(p.date_to_path(img_date)),
                                       p.resolution, plot)
             frame_writer.writeFrame(to_writer)
             pbar.update((n + 1) / len(p.image_times))
