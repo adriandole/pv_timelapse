@@ -1,8 +1,6 @@
 import warnings
 
 import numpy as np
-import skimage.color
-from skimage.filters import sobel
 from skimage import img_as_ubyte
 from skimage.transform import rescale, resize
 
@@ -35,7 +33,7 @@ def process_frame(frame: np.ndarray, resolution: int,
         return img_as_ubyte(frame)
 
 
-def horizontal_pad(frame: np.ndarray, width_scale: float = 0.2):
+def horizontal_pad(frame: np.ndarray, width_scale: float = 0.19375):
     """
     Pads the image horizontally with black.
 
