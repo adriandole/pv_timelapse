@@ -48,7 +48,7 @@ def horizontal_pad(frame: np.ndarray, width_scale: float = 0.19375):
 
 
 def overlay(background: np.ndarray, image: np.ndarray,
-            position: tuple = (0, 0), buffer: int = 5) -> np.ndarray:
+            position: tuple = (0, 0), buffer: int = 2) -> np.ndarray:
     """
     Overlays an image on top of another. Transparent where the image is black
 

@@ -31,14 +31,15 @@ def plot_ghi(p: Params, img_date: datetime,
     canvas = FigureCanvas(fig)
     ax = fig.gca()
     ax.plot(p.ghi_data, linewidth=1.0)
-    ax.axvline(data_date, color='r')
-    ax.text(0.35, 0.95,
-            'Current: {:>7.1f} W/m²'.format(p.ghi_data[int(data_date)]),
+    ax.axvline(data_date, ymax=0.05, color='r')
+    ax.text(0.2, 0.95,
+            '{:>7.1f} W/m²'.format(p.ghi_data[int(data_date)]),
             transform=ax.transAxes, ha='right', va='center')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.xaxis.set_major_locator(locator)
     ax.xaxis.set_major_formatter(FuncFormatter(offset_formatter))
+    ax.set_ylim([-50,1400])
     canvas.draw()
 
     image = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
