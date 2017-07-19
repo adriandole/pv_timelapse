@@ -95,9 +95,6 @@ def create_dict(cfg: configparser.ConfigParser) -> Dict[str, dict]:
         input_dict = {'-r': '30'}
         output_dict = {'-codec:v': 'mpeg4', '-flags:v': '+qscale',
                        '-global_quality:v': '0'}
-        logging.warning(
-            'Using Windows preset: quality, efficiency, and framerate'
-            ' parameters ignored')
     else:
         codecs = {'h264': 'libx264', 'h265': 'libx265'}
         efficiency = {0: 'ultrafast', 1: 'superfast', 2: 'veryfast',
