@@ -7,5 +7,5 @@ setup(
     author='Donald Dole',
     author_email='donald.dole@nist.gov',
     description='Generates time-lapse videos from sky camera images.',
-    install_requires=['numpy', 'pandas', 'scikit-image', 'sk-video', 'matplotlib', 'mysqlclient’']
+    install_requires=['numpy', 'pandas', 'scikit-image', 'sk-video', 'matplotlib', 'mysqlclient']
 )
