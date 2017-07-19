@@ -1,5 +1,4 @@
 import configparser
-import logging
 import os
 import sys
 from typing import Dict, Union
@@ -10,7 +9,7 @@ def configure(file: Union[
     """Reads or creates a configuration file"""
     cfg = configparser.ConfigParser(interpolation=None)
     if not os.path.isfile(file):
-        logging.info('Creating new configuration file')
+        print('Creating new configuration file')
         file = open('config.ini', 'w')
         cfg['Files'] = {
             'source directory':
@@ -76,6 +75,8 @@ def configure(file: Union[
         sys.exit('Invalid efficiency value. Must be 0 to 8.')
     if cfg.getint('Video Options', 'resolution') <= 0:
         sys.exit('Invalid resolution')
+    if not os.path.isdir(cfg['Files']['source directory']):
+        sys.exit('Source directory not found')
     return cfg
 
 

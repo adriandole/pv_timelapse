@@ -1,8 +1,8 @@
-import warnings
 import argparse
-import sys
-import os
 import logging
+import os
+import sys
+import warnings
 from datetime import datetime
 
 import numpy as np
@@ -112,13 +112,9 @@ if __name__ == '__main__':
             cfg.getboolean('Files', 'overwrite'):
         sys.exit('Overwrite set to false and file already exists.')
 
-    if not os.path.isdir(source_path):
-        sys.exit('Source directory not found')
-
     dicts = create_dict(cfg)
 
     try:
-        print('got here')
         p = Params(source_path, write_path, start_datetime, end_datetime,
                    cfg.getfloat('Video Options', 'duration'),
                    cfg.getint('Video Options', 'resolution'),
@@ -126,7 +122,6 @@ if __name__ == '__main__':
                    cfg['Formatting']['image name format'],
                    cfg.getboolean('Codec Options', 'linear time'), dicts['in'],
                    dicts['out'])
-        print('got here too')
         create_timelapse(p)
     except Exception as e:
         print(e)
