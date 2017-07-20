@@ -26,8 +26,10 @@ def configure(file: Union[
                                 'codec': 'h264', 'quality': '23',
                                 'efficiency': '5',
                                 'custom ffmpeg': ''}
-        cfg['Timing'] = {'start day': '-1', 'end day': '-1', 'max days': '10',
-                         'minimum elevation': '-5'}
+        cfg['Timing'] = {'start day': '-1', 'end day': '-1', 'max days': '10'}
+        cfg['Solar'] = {'latitude': '39.138306', 'longitude': '-77.219444',
+                        'time zone': 'America/New_York', 'altitude': '140',
+                        'minimum elevation': '-5'}
         cfg.write(file)
         file.write(
         ";                             Documentation\n"
@@ -60,13 +62,21 @@ def configure(file: Union[
         "; start day: Which day to start making timelapses for. Either a date\n"
         ";            (YYYY-MM-DD) or a negative number. -1 = yesterday\n"
         "; end day: When to stop making timelapses, same options as start day.\n"
-        "; max days: Maximum number of days to make timelapses for.\n"
-        "; minimum elevation: Solar zenith angle to use as the start of the timelapse.\n")
+        "; max days: Maximum number of days to make timelapses for.\n\n"
+        "; [Solar]\n"
+        "; latitude: of the solar panel location in decimal degree form.\n"
+        "; longitude: in decimal degree form.\n"
+        "; altitude: above sea level in meters.\n"
+        "; time zone: name from the tz database (e.g. America/New_York)\n"
+        "; minimum elevation: Solar zenith angle to use as the start of the timelapse.")
         file.close()
     cfg.read('config.ini')
-    if cfg.getint('Timing', 'start day') >= 0 or cfg.getint('Timing',
-                                                            'end day') >= 0:
-        sys.exit('Start and end day must be less than 0')
+    try:
+        if cfg.getint('Timing', 'start day') >= 0 or cfg.getint('Timing',
+                                                                'end day') >= 0:
+            sys.exit('Start and end day must be less than 0')
+    except:
+        pass
     if cfg['Codec Options']['codec'] not in ['h265', 'h264']:
         sys.exit('Invalid codec')
     if cfg.getint('Codec Options', 'quality') not in range(52):
@@ -107,3 +117,6 @@ def create_dict(cfg: configparser.ConfigParser) -> Dict[str, dict]:
                                                         'efficiency')],
                        '-crf': cfg['Codec Options']['quality']}
     return {'out': output_dict, 'in': input_dict}
+
+if __name__ == '__main__':
+    configure()

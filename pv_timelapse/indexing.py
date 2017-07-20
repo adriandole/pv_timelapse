@@ -68,11 +68,8 @@ class Params:
             except:
                 continue
         days.sort()
-        start_day = self.start_date + \
-                    timedelta(hours=-self.start_date.hour,
-                              minutes=-self.start_date.minute,
-                              seconds=-self.start_date.second)
-
+        start_day = datetime(self.start_date.year, self.start_date.month,
+                             self.start_date.day)
         for day in days:
             if (day >= start_day) and (day <= self.end_date):
                 day_folders += [str(day)[0:10]]
