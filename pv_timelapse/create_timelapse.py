@@ -115,13 +115,18 @@ if __name__ == '__main__':
     dicts = create_dict(cfg)
 
     try:
-        p = Params(source_path, write_path, start_datetime, end_datetime,
-                   cfg.getfloat('Video Options', 'duration'),
+        p = Params(source_path, cfg.getfloat('Video Options', 'duration'),
                    cfg.getint('Video Options', 'resolution'),
                    cfg['Formatting']['folder name format'],
                    cfg['Formatting']['image name format'],
                    cfg.getboolean('Codec Options', 'linear time'), dicts['in'],
-                   dicts['out'])
+                   dicts['out'], cfg['Database']['user'],
+                   cfg['Database']['password'],
+                   cfg['Database']['host'], cfg.getint('Database', 'port'),
+                   cfg['Database']['database'], cfg['Database']['table name'],
+                   cfg['Database']['table column'],
+                   cfg['Database']['time column'])
+        p.set_dates(start_datetime, end_datetime, write_path)
         create_timelapse(p)
     except Exception as e:
         print(e)

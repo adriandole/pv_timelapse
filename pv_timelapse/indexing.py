@@ -11,19 +11,15 @@ import pandas as pd
 class Params:
     """Container class for various relevant parameters"""
 
-    def __init__(self, source_path: os.path.abspath,
-                 write_path: os.path.abspath, start_date: datetime,
-                 end_date: datetime, duration: int,
+    def __init__(self, source_path: os.path.abspath, duration: int,
                  resolution: int, folder_format: str, image_name_format: str,
-                 linear_time: bool,
-                 input_dict: dict, output_dict: dict):
+                 linear_time: bool, input_dict: dict, output_dict: dict,
+                 sql_user: str, sql_passwd: str, sql_host: str, sql_port: int,
+                 sql_db: str, sql_table: str, table_column: str, time_col: str):
         """
         Constructor for the container class
 
         :param source_path: directory containing the day folders
-        :param write_path: path to the output video
-        :param start_date: when to start the timelapse
-        :param end_date: when to end the timelapse
         :param duration: length of the video in secondst
         :param resolution: output resolution as percentage of input
         :param folder_format: name format of the day folders
@@ -32,11 +28,19 @@ class Params:
         frames
         :param input_dict: FFmpeg input parameters
         :param output_dict: FFmpeg output parameters
+        :param sql_user: username for accessing the irradiance database
+        :param sql_passwd: password for the SQL user
+        :param sql_host: host containing the database
+        :param sql_port: port for the host
+        :param sql_db: name of the database
+        :param sql_table: name of the table to pull from
+        :param table_value: which value to pull from the table
+        :param time_col: column of the table containing datetime information
         """
         self.source = source_path
-        self.write = write_path
-        self.start_date = start_date
-        self.end_date = end_date
+        self.write = None
+        self.start_date = None
+        self.end_date = None
         self.duration = duration
         self.resolution = resolution
         self.folder_format = folder_format
@@ -44,12 +48,35 @@ class Params:
         self.linear_time = linear_time
         self.input_dict = input_dict
         self.output_dict = output_dict
-        self.day_folders = self.find_folders()
+        self.day_folders = None
         self.image_times = []
+        self.ghi_data = None
+        self.sql_user = sql_user
+        self.sql_passwd = sql_passwd
+        self.sql_host = sql_host
+        self.sql_port = sql_port
+        self.sql_db = sql_db
+        self.sql_table = sql_table
+        self.table_column = table_column
+        self.time_col = time_col
+
+    def set_dates(self, start_date: datetime, end_date: datetime,
+                  write_path: os.path.abspath):
+        """
+        Sets the start and end dates and retrieves irradiance data
+
+        :param start_date: when to start the timelapse
+        :param end_date: when to end the timelapse
+        :param write_path: path to the output video
+        """
+        self.start_date = start_date
+        self.end_date = end_date
+        self.write = write_path
+        self.day_folders = self.find_folders()
+        self.ghi_data = self.get_ghi()
         for folder in self.day_folders:
             self.image_times += self.get_image_times(folder)
         self.image_times = pd.DatetimeIndex(self.image_times)
-        self.ghi_data = self.get_ghi()
 
     def find_folders(self) -> List[str]:
         """
@@ -57,7 +84,6 @@ class Params:
 
         :return: Name of the directory
         """
-
         dir_folders = os.listdir(self.source)
         days = []
         day_folders = []
@@ -112,13 +138,14 @@ class Params:
 
         :return: array of irradiance values every second
         """
-        db = MySQLdb.connect(host='lumos.el.nist.gov', port=3307,
-                             user='db_robot_select',
-                             passwd='vdv', db='vistavision_db')
+        db = MySQLdb.connect(host=self.sql_host, port=self.sql_port,
+                             user=self.sql_user, passwd=self.sql_passwd,
+                             db=self.sql_db)
         c = db.cursor()
-        c.execute('SELECT 19_refcell1_wm2 FROM ws_1_analogtable_0037 '
-                  'WHERE time_stamp BETWEEN \'{}\' and \'{}\''
-                  .format(self.start_date.strftime('%Y-%m-%d %H-%M-%S'),
+        c.execute('SELECT {} FROM {} '
+                  'WHERE {} BETWEEN \'{}\' and \'{}\''
+                  .format(self.table_column, self.sql_table, self.time_col,
+                          self.start_date.strftime('%Y-%m-%d %H-%M-%S'),
                           self.end_date.strftime('%Y-%m-%d %H-%M-%S')))
         out = c.fetchall()
         return np.array([float(n[0]) for n in out])

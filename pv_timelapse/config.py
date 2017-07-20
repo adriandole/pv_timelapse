@@ -30,6 +30,12 @@ def configure(file: Union[
         cfg['Solar'] = {'latitude': '39.138306', 'longitude': '-77.219444',
                         'time zone': 'America/New_York', 'altitude': '140',
                         'minimum elevation': '-5'}
+        cfg['Database'] = {'host': 'lumos.el.nist.gov', 'port': '3307',
+                           'user': 'db_robot_select', 'password': 'vdv',
+                           'database': 'vistavision_db',
+                           'table name': 'ws_1_analogtable_0037',
+                           'table column': '19_refcell1_wm2',
+                           'time column': 'time_stamp'}
         cfg.write(file)
         file.write(
         ";                             Documentation\n"
@@ -68,7 +74,16 @@ def configure(file: Union[
         "; longitude: in decimal degree form.\n"
         "; altitude: above sea level in meters.\n"
         "; time zone: name from the tz database (e.g. America/New_York)\n"
-        "; minimum elevation: Solar zenith angle to use as the start of the timelapse.")
+        "; minimum elevation: Solar zenith angle to use as the start of the timelapse.\n\n"
+        "; [Database]\n"
+        "; host: SQL host containing a table with irradiance information.\n"
+        "; port: corresponding to the host.\n"
+        "; user: username for database access.\n"
+        "; password: for the above username.\n"
+        "; database: name of the database containing the relevant table.\n"
+        "; table name: of the table to query from.\n"
+        "; table column: name of the column to pull data from.\n"
+        "; time column: name of the column containing datetime information.")
         file.close()
     cfg.read('config.ini')
     try:
