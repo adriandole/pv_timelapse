@@ -10,7 +10,7 @@ def configure(file: Union[
     cfg = configparser.ConfigParser(interpolation=None)
     if not os.path.isfile(file):
         print('Creating new configuration file')
-        file = open('config.ini', 'w')
+        file = open(file, 'w')
         cfg['Files'] = {
             'source directory':
                 "M:\energy_netzero\photovoltaic_electrical\Images"
