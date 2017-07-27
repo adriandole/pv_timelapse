@@ -86,7 +86,7 @@ def configure(file: Union[
         "; table column: name of the column to pull data from.\n"
         "; time column: name of the column containing datetime information.")
         file.close()
-    cfg.read('config.ini')
+    cfg.read(file)
     try:
         if cfg.getint('Timing', 'start day') >= 0 or cfg.getint('Timing',
                                                                 'end day') >= 0:
