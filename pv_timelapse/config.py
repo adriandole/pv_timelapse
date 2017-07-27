@@ -41,6 +41,7 @@ def configure(file: Union[
         ";                             Documentation\n"
         "; [Files]\n"
         "; source directory: Directory containing folders for each day's images.\n"
+        ";                   Use UNC file paths (e.g. \\elwood\dir, not F:\dir)\n"
         "; output directory: Where to put the created timelapse.\n"
         "; output name: Name of the output file, extension will be removed.\n"
         ";              Supports datetime formatting.\n"

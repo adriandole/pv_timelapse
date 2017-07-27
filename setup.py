@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pv_timelapse',
-    version='1.0.0',
+    version='1.0.1',
     packages=find_packages(),
     author='Donald Dole',
     author_email='donald.dole@nist.gov',
@@ -18,7 +18,7 @@ setup(
     description='Generates time-lapse videos from sky camera images.',
     python_requires='>=3.5',
     install_requires=['numpy', 'pandas', 'scikit-image', 'sk-video',
-                      'matplotlib', 'mysqlclient', 'pvlib'],
+                      'matplotlib', 'mysqlclient', 'pvlib', 'ephem', 'scipy'],
     entry_points={
         'console_scripts': ['pv_timelapse=pv_timelapse:main']
     }
