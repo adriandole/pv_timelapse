@@ -1,5 +1,6 @@
 import os
 import sys
+import argparse
 from datetime import datetime, timedelta
 from math import radians
 
@@ -11,7 +12,13 @@ from pv_timelapse.config import create_dict, configure
 from pv_timelapse.create_timelapse import create_timelapse
 from pv_timelapse.indexing import Params
 
-cfg = configure()
+parser = argparse.ArgumentParser()
+parser.add_argument('-cfg', '--config_file', type=str, dest='cfg',
+                    help='Name or location of the config file to use',
+                    default='config.ini')
+in_args = parser.parse_args()
+
+cfg = configure(in_args.cfg)
 dicts = create_dict(cfg)
 max = cfg['Timing']['max days']
 
