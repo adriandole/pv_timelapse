@@ -1,7 +1,7 @@
 import os
 import time
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Iterator
 
 import MySQLdb
 import numpy as np
@@ -74,11 +74,12 @@ class Params:
         self.write = write_path
         self.day_folders = self.find_folders()
         self.ghi_data = self.get_ghi()
+        self.image_times = []
         for folder in self.day_folders:
             self.image_times += self.get_image_times(folder)
         self.image_times = pd.DatetimeIndex(self.image_times)
 
-    def find_folders(self) -> List[str]:
+    def find_folders(self) -> Iterator[str]:
         """
         Finds the folders encompassing the given dates.
 
@@ -86,7 +87,6 @@ class Params:
         """
         dir_folders = os.listdir(self.source)
         days = []
-        day_folders = []
 
         for folder_name in dir_folders:
             try:
@@ -96,10 +96,10 @@ class Params:
         days.sort()
         start_day = datetime(self.start_date.year, self.start_date.month,
                              self.start_date.day)
-        for day in days:
-            if (day >= start_day) and (day <= self.end_date):
-                day_folders += [str(day)[0:10]]
 
+        day_folders = map(lambda x: str(x)[0:10],
+                          filter(lambda x: start_day <= x <= self.end_date,
+                                 days))
         return day_folders
 
     def get_image_times(self, day_dir: str) -> List[datetime]:
