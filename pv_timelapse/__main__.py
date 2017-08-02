@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime, timedelta
 from math import radians
 
+import logging
 import pytz
 from pandas import Timestamp
 from pvlib.solarposition import calc_time
@@ -93,5 +94,12 @@ for x in range(startval, endval + 1):
         pass
     name = name + ext
     write_path = os.path.join(output_path, name)
+    if os.path.isfile(write_path) and cfg.getboolean('Files', 'overwrite'):
+        logging.info('File already exists. Overwriting.')
+    elif os.path.isfile(write_path) and not \
+            cfg.getboolean('Files', 'overwrite'):
+        logging.warning('Overwrite set to false and file already exists. '
+                        'Skipping file.')
+        continue
     p.set_dates(start_datetime, end_datetime, write_path)
     create_timelapse(p)
