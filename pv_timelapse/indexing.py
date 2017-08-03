@@ -107,9 +107,6 @@ class Params:
         start_day = datetime(self.start_date.year, self.start_date.month,
                              self.start_date.day)
 
-        # day_folders = map(lambda x: str(x)[0:10],
-        #                   filter(lambda x: start_day <= x <= self.end_date,
-        #                          days))
         day_folders = [str(x)[0:10] for x in
                        [y for y in days if start_day <= y <= self.end_date]]
         return day_folders

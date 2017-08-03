@@ -79,6 +79,13 @@ param_container = []
 for x in range(startval, endval + 1):
     start_day = Timestamp(first_day.year, first_day.month,
                           first_day.day).tz_localize(tz=tz) + timedelta(days=x)
+
+    folder_name = start_day.strftime(cfg['Formatting']['folder name format'])
+    day_path = os.path.join(source_path, folder_name)
+    if not os.path.isdir(day_path):
+        logging.warning(f'Missing folder: {folder_name}')
+        continue
+
     interval_noon = (start_day + timedelta(hours=12)).tz_convert('UTC')
     interval_end = (start_day + timedelta(hours=23, minutes=59)).tz_convert(
         'UTC')
