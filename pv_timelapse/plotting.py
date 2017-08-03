@@ -8,7 +8,7 @@ from matplotlib.ticker import LinearLocator, FuncFormatter
 
 from pv_timelapse.indexing import Params
 
-
+a = False
 def plot_ghi(p: Params, img_date: datetime,
              data_freq: Union[int, float] = 1) -> np.ndarray:
     """

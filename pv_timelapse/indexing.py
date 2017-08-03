@@ -131,6 +131,8 @@ class Params:
             except:
                 continue
         file_dates.sort()
+        file_dates = [x for x in file_dates if
+                      self.start_date <= x <= self.end_date]
 
         return file_dates
 
