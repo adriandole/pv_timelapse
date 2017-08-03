@@ -38,7 +38,8 @@ def create_timelapse(p: Params):
                                     outputdict=p.output_dict)
 
     f_count = 0
-    pbar = ProgressBar()
+    if p.show_pbar:
+        pbar = ProgressBar()
     if p.linear_time or (len(frame_times) > len(p.image_times)):
         for frame in frame_times:
             closest_img = p.image_times.get_loc(frame, method='nearest')
@@ -49,7 +50,8 @@ def create_timelapse(p: Params):
                 p.resolution, plot)
             frame_writer.writeFrame(to_writer)
             f_count += 1
-            pbar.update(f_count / len(frame_times))
+            if p.show_pbar:
+                pbar.update(f_count / len(frame_times))
     else:
         skip = int(len(p.image_times) / len(frame_times))
         for n in range(0, len(p.image_times), skip):
@@ -58,8 +60,10 @@ def create_timelapse(p: Params):
             to_writer = process_frame(imread(p.date_to_path(img_date)),
                                       p.resolution, plot)
             frame_writer.writeFrame(to_writer)
-            pbar.update((n + 1) / len(p.image_times))
-    pbar.update(1)
+            if p.show_pbar:
+                pbar.update((n + 1) / len(p.image_times))
+    if p.show_pbar:
+        pbar.update(1)
 
     frame_writer.close()
 

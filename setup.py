@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pv_timelapse',
-    version='1.0.1',
+    version='1.0.2',
     packages=find_packages(),
     author='Donald Dole',
     author_email='donald.dole@nist.gov',

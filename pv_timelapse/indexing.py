@@ -59,6 +59,7 @@ class Params:
         self.sql_table = sql_table
         self.table_column = table_column
         self.time_col = time_col
+        self.show_pbar = True
 
     def set_dates(self, start_date: datetime, end_date: datetime,
                   write_path: os.path.abspath):
@@ -79,6 +80,15 @@ class Params:
             self.image_times += self.get_image_times(folder)
         self.image_times = pd.DatetimeIndex(self.image_times)
 
+    def set_pbar(self, show_pbar: bool):
+        """
+        Whether to show a progress bar
+
+        :param show_pbar: whether to show a progress bar. Disable for all but
+                          first process if using multithreading
+        """
+        self.show_pbar = show_pbar
+
     def find_folders(self) -> Iterator[str]:
         """
         Finds the folders encompassing the given dates.
@@ -97,9 +107,11 @@ class Params:
         start_day = datetime(self.start_date.year, self.start_date.month,
                              self.start_date.day)
 
-        day_folders = map(lambda x: str(x)[0:10],
-                          filter(lambda x: start_day <= x <= self.end_date,
-                                 days))
+        # day_folders = map(lambda x: str(x)[0:10],
+        #                   filter(lambda x: start_day <= x <= self.end_date,
+        #                          days))
+        day_folders = [str(x)[0:10] for x in
+                       [y for y in days if start_day <= y <= self.end_date]]
         return day_folders
 
     def get_image_times(self, day_dir: str) -> List[datetime]:

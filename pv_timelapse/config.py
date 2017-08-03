@@ -10,7 +10,7 @@ def configure(file: Union[
     cfg = configparser.ConfigParser(interpolation=None)
     if not os.path.isfile(file):
         print('Creating new configuration file')
-        file = open(file, 'w')
+        cfg_file = open(file, 'w')
         cfg['Files'] = {
             'source directory':
                 "M:\energy_netzero\photovoltaic_electrical\Images"
@@ -25,7 +25,7 @@ def configure(file: Union[
                                 'linear time': 'False',
                                 'codec': 'h264', 'quality': '23',
                                 'efficiency': '5',
-                                'custom ffmpeg': ''}
+                                'custom ffmpeg': '', 'threads': '4'}
         cfg['Timing'] = {'start day': '-1', 'end day': '-1', 'max days': '10'}
         cfg['Solar'] = {'latitude': '39.138306', 'longitude': '-77.219444',
                         'time zone': 'America/New_York', 'altitude': '140',
@@ -36,8 +36,8 @@ def configure(file: Union[
                            'table name': 'ws_1_analogtable_0037',
                            'table column': '19_refcell1_wm2',
                            'time column': 'time_stamp'}
-        cfg.write(file)
-        file.write(
+        cfg.write(cfg_file)
+        cfg_file.write(
         ";                             Documentation\n"
         "; [Files]\n"
         "; source directory: Directory containing folders for each day's images.\n"
@@ -64,6 +64,7 @@ def configure(file: Union[
         ";          0-51 allowed, 18-28 recommended.\n"
         "; efficiency: Compression efficiency. No effect on quality. Higher efficiency =\n"
         ";             longer encoding time. 0 to 8\n"
+        "; threads: how many CPU threads to use in parallel.\n"
         "; custom ffmpeg: Dict of custom output parameters for FFMPEG. Not recommended.\n\n"
         "; [Timing]\n"
         "; start day: Which day to start making timelapses for. Either a date\n"
@@ -85,7 +86,7 @@ def configure(file: Union[
         "; table name: of the table to query from.\n"
         "; table column: name of the column to pull data from.\n"
         "; time column: name of the column containing datetime information.")
-        file.close()
+        cfg_file.close()
     cfg.read(file)
     try:
         if cfg.getint('Timing', 'start day') >= 0 or cfg.getint('Timing',
