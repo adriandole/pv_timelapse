@@ -42,6 +42,9 @@ def create_timelapse(p: Params):
     f_count = 0
     if p.show_pbar:
         pbar = ProgressBar()
+    if len(p.image_times) == 0:
+        logging.critical(f'Missing images for {p.start_date}')
+        return
     if p.linear_time or (len(frame_times) > len(p.image_times)):
         for frame in frame_times:
             closest_img = p.image_times.get_loc(frame, method='nearest')
