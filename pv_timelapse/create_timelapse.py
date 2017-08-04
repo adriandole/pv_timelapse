@@ -36,6 +36,8 @@ def create_timelapse(p: Params):
         warnings.simplefilter('ignore')
         frame_writer = FFmpegWriter(p.write, inputdict=p.input_dict,
                                     outputdict=p.output_dict)
+    if not p.image_times:
+        p.image_indexing()
 
     f_count = 0
     if p.show_pbar:

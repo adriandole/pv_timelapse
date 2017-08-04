@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 from datetime import datetime, timedelta
@@ -10,12 +11,13 @@ import pandas as pd
 
 class Params:
     """Container class for various relevant parameters"""
-
+    logger = logging.getLogger('Indexing')
     def __init__(self, source_path: os.path.abspath, duration: int,
                  resolution: int, folder_format: str, image_name_format: str,
                  linear_time: bool, input_dict: dict, output_dict: dict,
                  sql_user: str, sql_passwd: str, sql_host: str, sql_port: int,
-                 sql_db: str, sql_table: str, table_column: str, time_col: str):
+                 sql_db: str, sql_table: str, table_column: str, time_col: str,
+                 defer_img_indexing: bool = False):
         """
         Constructor for the container class
 
@@ -25,7 +27,7 @@ class Params:
         :param folder_format: name format of the day folders
         :param image_name_format: name format of the individual images
         :param linear_time: whether to use constant time intervals between
-        frames
+            frames
         :param input_dict: FFmpeg input parameters
         :param output_dict: FFmpeg output parameters
         :param sql_user: username for accessing the irradiance database
@@ -36,6 +38,8 @@ class Params:
         :param sql_table: name of the table to pull from
         :param table_value: which value to pull from the table
         :param time_col: column of the table containing datetime information
+        :param defer_img_indexing: delay getting names of image files until
+            manually started later. Useful for slow network drives.
         """
         self.source = source_path
         self.write = None
@@ -48,6 +52,7 @@ class Params:
         self.linear_time = linear_time
         self.input_dict = input_dict
         self.output_dict = output_dict
+        self.dir_folders = os.listdir(self.source)
         self.day_folders = None
         self.image_times = []
         self.ghi_data = None
@@ -60,6 +65,7 @@ class Params:
         self.table_column = table_column
         self.time_col = time_col
         self.show_pbar = True
+        self.defer_img_indexing = defer_img_indexing
 
     def set_dates(self, start_date: datetime, end_date: datetime,
                   write_path: os.path.abspath):
@@ -73,12 +79,10 @@ class Params:
         self.start_date = start_date
         self.end_date = end_date
         self.write = write_path
-        self.day_folders = self.find_folders()
         self.ghi_data = self.get_ghi()
         self.image_times = []
-        for folder in self.day_folders:
-            self.image_times += self.get_image_times(folder)
-        self.image_times = pd.DatetimeIndex(self.image_times)
+        if not self.defer_img_indexing:
+            self.image_indexing()
 
     def set_pbar(self, show_pbar: bool):
         """
@@ -95,10 +99,9 @@ class Params:
 
         :return: Name of the directory
         """
-        dir_folders = os.listdir(self.source)
         days = []
 
-        for folder_name in dir_folders:
+        for folder_name in self.dir_folders:
             try:
                 days += [datetime.strptime(folder_name, self.folder_format)]
             except:
@@ -132,6 +135,13 @@ class Params:
                       self.start_date <= x <= self.end_date]
 
         return file_dates
+
+    def image_indexing(self):
+        """Get image names if previously deferred"""
+        self.day_folders = self.find_folders()
+        for folder in self.day_folders:
+            self.image_times += self.get_image_times(folder)
+        self.image_times = pd.DatetimeIndex(self.image_times)
 
     def date_to_path(self, img_date: datetime) -> os.path.abspath:
         """
