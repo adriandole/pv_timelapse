@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 import warnings
+import csv
 from datetime import datetime
 
 import numpy as np
@@ -17,6 +18,7 @@ from pv_timelapse.frame_tools import process_frame
 from pv_timelapse.indexing import ProgressBar, Params
 from pv_timelapse.plotting import plot_ghi
 from pv_timelapse.config import configure, create_dict
+from pv_timelapse.segmentation import compute_segmentation
 
 
 def create_timelapse(p: Params):
@@ -30,14 +32,18 @@ def create_timelapse(p: Params):
                               pd.Timestamp(p.end_date).value, total_frames)
 
     frame_times = pd.to_datetime(frame_times)
-    # Framerate has to be a string. Something do with the underlying skvideo
-    # code
+    # Framerate has to be a string
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
         frame_writer = FFmpegWriter(p.write, inputdict=p.input_dict,
                                     outputdict=p.output_dict)
     if not p.image_times:
         p.image_indexing()
+
+    if p.seg_write:
+        csv_file = open(p.seg_write, 'w', newline='')
+        csv_writer = csv.writer(csv_file, dialect='excel',
+                                quoting=csv.QUOTE_ALL)
 
     f_count = 0
     if p.show_pbar:
@@ -49,10 +55,11 @@ def create_timelapse(p: Params):
         for frame in frame_times:
             closest_img = p.image_times.get_loc(frame, method='nearest')
             img_date = p.image_times[closest_img]
+            frame_image = imread(p.date_to_path(img_date))
             plot = plot_ghi(p, img_date)
-            to_writer = process_frame(
-                imread(p.date_to_path(img_date)),
-                p.resolution, plot)
+            to_writer = process_frame(frame_image, p.resolution, plot)
+            if p.seg_write:
+                compute_segmentation(frame_image, img_date, csv_writer)
             frame_writer.writeFrame(to_writer)
             f_count += 1
             if p.show_pbar:
@@ -62,14 +69,18 @@ def create_timelapse(p: Params):
         for n in range(0, len(p.image_times), skip):
             img_date = p.image_times[n]
             plot = plot_ghi(p, img_date)
-            to_writer = process_frame(imread(p.date_to_path(img_date)),
-                                      p.resolution, plot)
+            frame_image = imread(p.date_to_path(img_date))
+            to_writer = process_frame(frame_image, p.resolution, plot)
+            if p.seg_write:
+                compute_segmentation(frame_image, img_date, csv_writer)
             frame_writer.writeFrame(to_writer)
             if p.show_pbar:
                 pbar.update((n + 1) / len(p.image_times))
     if p.show_pbar:
         pbar.update(1)
 
+    if p.seg_write:
+        csv_file.close()
     frame_writer.close()
 
 if __name__ == '__main__':

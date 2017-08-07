@@ -30,10 +30,13 @@ if __name__ == '__main__':
         source_path = os.path.abspath(cfg['Files']['source directory'])
         output_path = os.path.abspath(cfg.get('Files', 'output directory',
                                               fallback=''))
+        seg_name = os.path.abspath(cfg.get('Files', 'segmentation output name',
+                                              fallback=None))
     except:
         sys.exit('Invalid directory')
 
     basename, ext = os.path.splitext(cfg['Files']['output name'])
+    seg_base = cfg['Files']['segmentation output name']
 
     if cfg.getboolean('Codec Options', 'windows preset'):
         ext = '.avi'
@@ -81,7 +84,6 @@ if __name__ == '__main__':
     param_container = []
 
     for x in range(startval, endval + 1):
-        print(f'Indexing day {x}')
         start_day = Timestamp(first_day.year, first_day.month,
                               first_day.day).tz_localize(tz=tz) + timedelta(
             days=x)
@@ -114,7 +116,10 @@ if __name__ == '__main__':
             name = datetime.strftime(start_datetime, basename)
         except:
             name = basename
-            pass
+        try:
+            seg_name = datetime.strftime(start_datetime, seg_base)
+        except:
+            seg_name = seg_base
         name = name + ext
         write_path = os.path.join(output_path, name)
         if os.path.isfile(write_path) and cfg.getboolean('Files', 'overwrite'):
@@ -127,7 +132,7 @@ if __name__ == '__main__':
         logging.info(f'Pulling data and folder information for '
                      f'{start_datetime.strftime("%Y-%m-%d")}')
         p_add = copy(base_param)
-        p_add.set_dates(start_datetime, end_datetime, write_path)
+        p_add.set_dates(start_datetime, end_datetime, write_path, seg_name)
         param_container += [p_add]
 
     with Pool(processes=threads) as pool:

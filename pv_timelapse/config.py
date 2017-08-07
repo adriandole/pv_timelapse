@@ -16,7 +16,7 @@ def configure(file: Union[
                 "M:\energy_netzero\photovoltaic_electrical\Images"
                                 "\Sky Camera",
             'output directory': '', 'output name': '%Y-%m-%d.mp4',
-            'overwrite': 'False'}
+            'overwrite': 'False', 'segmentation output name': '%Y-%m-%d.csv'}
         cfg['Formatting'] = {'image name format': '%Y-%m-%d--%H-%M-%S.jpg',
                              'folder name format': '%Y-%m-%d'}
         cfg['Video Options'] = {'frame rate': '60', 'duration': '10',
@@ -46,6 +46,8 @@ def configure(file: Union[
         "; output name: Name of the output file, extension will be removed.\n"
         ";              Supports datetime formatting.\n"
         "; overwrite: replace existing file if present\n"
+        "; segmentation output name: name of CSV file for segmentation data."
+        ";                           Blank to not compute."
         "; [Formatting]\n"
         "; image name format: Image name format containing date and time information.\n"
         ";                    Use Python's datetime formatting.\n"

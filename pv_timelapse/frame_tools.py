@@ -30,6 +30,7 @@ def process_frame(frame: np.ndarray, resolution: int,
     frame = overlay(frame, plot)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
+        # FFMPEG requires uint8 images as input
         return img_as_ubyte(frame)
 
 
@@ -60,6 +61,8 @@ def overlay(background: np.ndarray, image: np.ndarray,
     """
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
+        # overlaying images of different data types will work, but with
+        # undesired results
         background = img_as_ubyte(background)
         image = img_as_ubyte(image)
     mask = np.logical_and(image[::, ::, 0] == 0, np.logical_and(

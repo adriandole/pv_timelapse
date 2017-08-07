@@ -12,6 +12,7 @@ import pandas as pd
 class Params:
     """Container class for various relevant parameters"""
     logger = logging.getLogger('Indexing')
+
     def __init__(self, source_path: os.path.abspath, duration: int,
                  resolution: int, folder_format: str, image_name_format: str,
                  linear_time: bool, input_dict: dict, output_dict: dict,
@@ -43,6 +44,7 @@ class Params:
         """
         self.source = source_path
         self.write = None
+        self.seg_write = None
         self.start_date = None
         self.end_date = None
         self.duration = duration
@@ -68,17 +70,20 @@ class Params:
         self.defer_img_indexing = defer_img_indexing
 
     def set_dates(self, start_date: datetime, end_date: datetime,
-                  write_path: os.path.abspath):
+                  write_path: os.path.abspath,
+                  seg_path: os.path.abspath = None):
         """
         Sets the start and end dates and retrieves irradiance data
 
         :param start_date: when to start the timelapse
         :param end_date: when to end the timelapse
         :param write_path: path to the output video
+        :param seg_path: path to output CSV for segmentation
         """
         self.start_date = start_date
         self.end_date = end_date
         self.write = write_path
+        self.seg_write = seg_path
         self.ghi_data = self.get_ghi()
         self.image_times = []
         if not self.defer_img_indexing:
